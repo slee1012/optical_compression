@@ -75,7 +75,8 @@ class OpticalPropagation:
         field_prop_fft = field_fft * H_transfer.unsqueeze(0)
         field_prop = torch.fft.ifft2(field_prop_fft)
         
-        field_prop = field_prop * torch.exp(1j * k * distance)
+        phase = torch.tensor(k * distance, dtype=field_prop.dtype, device=device)
+        field_prop = field_prop * torch.exp(1j * phase)
         
         return field_prop.squeeze(0) if squeeze_batch else field_prop
     

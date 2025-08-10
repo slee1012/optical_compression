@@ -50,7 +50,7 @@ except Exception as e:
 try:
     from core.metrics import CompressionMetrics
     metrics = CompressionMetrics()
-    psnr = metrics.psnr(test_image[0], reconstructed[0,0])
+    psnr = metrics.psnr(test_image[0], reconstructed[0])
     print(f"✓ Metrics successful! PSNR: {psnr:.2f} dB")
 except Exception as e:
     print(f"✗ Metrics error: {e}")
@@ -63,11 +63,11 @@ try:
     axes[0].set_title('Original')
     axes[0].axis('off')
     
-    axes[1].imshow(output['intensity_sensor'][0].numpy(), cmap='gray')
+    axes[1].imshow(output['intensity_sensor'][0].detach().numpy(), cmap='gray')
     axes[1].set_title('Sensor Output')
     axes[1].axis('off')
     
-    axes[2].imshow(reconstructed[0,0].detach().numpy(), cmap='gray')
+    axes[2].imshow(reconstructed[0].detach().numpy(), cmap='gray')
     axes[2].set_title('Reconstructed')
     axes[2].axis('off')
     
