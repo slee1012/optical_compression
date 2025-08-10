@@ -37,7 +37,7 @@ python examples/quick_demo.py
 
 ## Features
 
-- Physical optics simulation with multiple propagation methods
+- Physical optics simulation with multiple propagation methods (angular spectrum, Fresnel, Fraunhofer)
 - Modular optical elements (phase masks, coded apertures, lens arrays)
 - End-to-end optimization with learnable elements
 - Neural network decoders for reconstruction

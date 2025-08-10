@@ -76,12 +76,31 @@ class OpticalPropagation:
         field_prop = torch.fft.ifft2(field_prop_fft)
         
         field_prop = field_prop * torch.exp(1j * k * distance)
-        
+
+        return field_prop.squeeze(0) if squeeze_batch else field_prop
+
+    @staticmethod
+    def fraunhofer(field, distance, wavelength, pixel_pitch):
+        """Fraunhofer (far-field) propagation using a scaled FFT."""
+        squeeze_batch = False
+        if field.dim() == 2:
+            field = field.unsqueeze(0)
+            squeeze_batch = True
+
+        device = field.device if hasattr(field, 'device') else torch.device('cpu')
+        k = torch.tensor(2 * np.pi / wavelength, device=device)
+        prefactor = torch.exp(1j * k * distance) / (1j * wavelength * distance)
+
+        field_prop = torch.fft.fft2(field)
+        field_prop = prefactor * field_prop
+
         return field_prop.squeeze(0) if squeeze_batch else field_prop
     
     @staticmethod
     def propagate(field, distance, wavelength, pixel_pitch, method=None):
         if method == 'angular' or method == 'angular_spectrum':
             return OpticalPropagation.angular_spectrum(field, distance, wavelength, pixel_pitch)
+        elif method == 'fraunhofer':
+            return OpticalPropagation.fraunhofer(field, distance, wavelength, pixel_pitch)
         else:
             return OpticalPropagation.fresnel_transfer(field, distance, wavelength, pixel_pitch)
