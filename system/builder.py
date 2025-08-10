@@ -50,6 +50,25 @@ class SystemBuilder:
         self.elements.append(element)
         self.element_positions.append(position)
         return self
+
+    def add_waveguide(self, position=0.0, transmission=0.5, coupling=0.5,
+                      reflection=0.9, waveguide_length=1e-3,
+                      max_roundtrips=3, **kwargs):
+        from elements.waveguide import Waveguide
+        element = Waveguide(
+            resolution=self.config.sensor_resolution,
+            pixel_pitch=self.config.pixel_pitch,
+            wavelength=self.config.wavelength,
+            transmission=transmission,
+            coupling=coupling,
+            reflection=reflection,
+            waveguide_length=waveguide_length,
+            max_roundtrips=max_roundtrips,
+            **kwargs
+        )
+        self.elements.append(element)
+        self.element_positions.append(position)
+        return self
     
     def build(self):
         if len(self.elements) == 0:
