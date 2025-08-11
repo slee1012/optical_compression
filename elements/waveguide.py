@@ -1,6 +1,6 @@
 import torch
 from .base import OpticalElement
-from core.propagation import OpticalPropagation
+from physics.propagation import OpticalPropagation
 
 
 class Waveguide(OpticalElement):

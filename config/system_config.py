@@ -28,7 +28,7 @@ class SystemConfig:
     focal_length: float = 50e-3
     f_number: float = 2.8
     propagation_distance: float = 10e-3
-    propagation_method: PropagationMethod = PropagationMethod.FRESNEL
+    propagation_method: PropagationMethod = PropagationMethod.ANGULAR_SPECTRUM
     oversample_factor: int = 2
     use_gpu: bool = True
     dtype: str = "float32"
